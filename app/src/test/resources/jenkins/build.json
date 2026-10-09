@@ -1,0 +1,21 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+  "number": 42,
+  "fullDisplayName": "JenkinsLearningApp #42",
+  "result": "UNSTABLE",
+  "building": false,
+  "timestamp": 1760000000000,
+  "duration": 252000,
+  "estimatedDuration": 240000,
+  "url": "http://localhost:8080/job/JenkinsLearningApp/42/",
+  "artifacts": [
+    {"fileName": "app-debug.apk", "relativePath": "app/build/outputs/apk/debug/app-debug.apk"},
+    {"fileName": "lint results.html", "relativePath": "app/build/reports/lint results.html"}
+  ],
+  "actions": [
+    {"_class": "hudson.model.CauseAction"},
+    {},
+    {"_class": "hudson.tasks.junit.TestResultAction", "failCount": 2, "skipCount": 1, "totalCount": 58},
+    {"_class": "hudson.plugins.git.util.BuildData"}
+  ]
+}

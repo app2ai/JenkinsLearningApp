@@ -1,0 +1,14 @@
+# Copy this file to local.properties (ignored by Git) and adjust for YOUR machine.
+# Android Studio normally creates local.properties for you with sdk.dir.
+#
+# local.properties is for machine-specific, NON-SECRET settings. Don't put
+# tokens, passwords or keystore details here. See docs/04-credentials-and-secrets.md.
+
+# Android SDK location (Windows paths need escaped backslashes and colon):
+sdk.dir=C\:\\Users\\YOUR_USER\\AppData\\Local\\Android\\Sdk
+
+# Optional: default Jenkins URL compiled into BuildConfig.DEFAULT_JENKINS_BASE_URL.
+#   Emulator -> your PC's localhost:          http://10.0.2.2:8080/
+#   Physical device with `adb reverse`:       http://127.0.0.1:8080/
+#   Physical device on Wi-Fi (debug only):    http://192.168.x.y:8080/  (also add it to src/debug/res/xml/network_security_config.xml)
+JENKINS_BASE_URL=http://10.0.2.2:8080/

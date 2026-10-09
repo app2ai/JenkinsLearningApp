@@ -1,0 +1,12 @@
+# Keep line endings correct when the repo is cloned on Windows or Linux.
+*.bat        text eol=crlf
+*.cmd        text eol=crlf
+gradlew      text eol=lf
+*.sh         text eol=lf
+Jenkinsfile  text eol=lf
+*.kts        text eol=lf
+*.kt         text eol=lf
+
+*.jar        binary
+*.png        binary
+*.jks        binary

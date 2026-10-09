@@ -1,0 +1,19 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+  "name": "JenkinsLearningApp",
+  "fullName": "JenkinsLearningApp",
+  "description": "",
+  "color": "blue",
+  "buildable": true,
+  "inQueue": false,
+  "builds": [
+    {"number": 41, "result": "FAILURE", "timestamp": 1759990000000, "duration": 130000, "building": false},
+    {"number": 42, "result": "SUCCESS", "timestamp": 1760000000000, "duration": 252000, "building": false}
+  ],
+  "lastSuccessfulBuild": {"number": 42},
+  "lastFailedBuild": {"number": 41},
+  "property": [
+    {"_class": "org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty"},
+    {"_class": "jenkins.model.BuildDiscarderProperty"}
+  ]
+}

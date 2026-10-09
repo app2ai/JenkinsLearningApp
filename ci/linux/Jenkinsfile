@@ -1,0 +1,98 @@
+// =============================================================================
+// JenkinsLearningApp: pipeline for a LINUX/macOS agent (sh steps).
+// Same stages and credential IDs as the root Jenkinsfile (Windows/bat).
+// To use it: Job → Configure → Pipeline → Script Path: ci/linux/Jenkinsfile
+// =============================================================================
+
+pipeline {
+    agent any
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '10'))
+        timeout(time: 45, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+
+    parameters {
+        booleanParam(name: 'RUN_LINT', defaultValue: true, description: 'Run Android Lint (problems mark the build UNSTABLE).')
+        booleanParam(name: 'RUN_CREDENTIALS_DEMO', defaultValue: false, description: 'Needs sample-api-token and sample-config-file.')
+        booleanParam(name: 'BUILD_RELEASE', defaultValue: false, description: 'Needs android-release-keystore, android-keystore-password, android-release-key.')
+    }
+
+    environment {
+        GRADLE_ARGS = '--no-daemon --stacktrace --console=plain'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                sh 'git log -1 --oneline'
+            }
+        }
+        stage('Verify environment') {
+            steps {
+                sh 'bash ci/linux/verify-env.sh'
+            }
+        }
+        stage('Gradle wrapper') {
+            steps {
+                sh 'chmod +x gradlew && ./gradlew $GRADLE_ARGS --version'
+            }
+        }
+        stage('Compile') {
+            steps { sh './gradlew $GRADLE_ARGS :app:compileDebugSources' }
+        }
+        stage('Unit tests') {
+            steps { sh './gradlew $GRADLE_ARGS :app:testDebugUnitTest' }
+        }
+        stage('Lint') {
+            when { expression { params.RUN_LINT != false } }
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                    sh './gradlew $GRADLE_ARGS :app:lintDebug'
+                }
+            }
+        }
+        stage('Build debug APK') {
+            steps { sh './gradlew $GRADLE_ARGS :app:assembleDebug' }
+        }
+        stage('Credentials demo') {
+            when { expression { params.RUN_CREDENTIALS_DEMO == true } }
+            steps {
+                // Single quotes: the shell expands $SAMPLE_TOKEN, Groovy never sees the value.
+                withCredentials([string(credentialsId: 'sample-api-token', variable: 'SAMPLE_TOKEN')]) {
+                    sh './gradlew $GRADLE_ARGS :app:verifySampleToken'
+                }
+                withCredentials([file(credentialsId: 'sample-config-file', variable: 'SAMPLE_CONFIG_FILE')]) {
+                    sh 'test -f "$SAMPLE_CONFIG_FILE" && echo "Secret file is available to this block. Its content is not printed."'
+                }
+            }
+        }
+        stage('Release APK (optional)') {
+            when { expression { params.BUILD_RELEASE == true } }
+            steps {
+                withCredentials([
+                    file(credentialsId: 'android-release-keystore', variable: 'ANDROID_KEYSTORE_FILE'),
+                    string(credentialsId: 'android-keystore-password', variable: 'ANDROID_KEYSTORE_PASSWORD'),
+                    usernamePassword(credentialsId: 'android-release-key',
+                                     usernameVariable: 'ANDROID_KEY_ALIAS',
+                                     passwordVariable: 'ANDROID_KEY_PASSWORD'),
+                ]) {
+                    sh './gradlew $GRADLE_ARGS :app:assembleRelease'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            junit testResults: 'app/build/test-results/testDebugUnitTest/*.xml', allowEmptyResults: true
+            archiveArtifacts artifacts: 'app/build/outputs/apk/**/*.apk', allowEmptyArchive: true, fingerprint: true
+            archiveArtifacts artifacts: 'app/build/reports/**', allowEmptyArchive: true
+        }
+        failure {
+            echo 'Build FAILED. Read the first error in the console log; docs/06-troubleshooting.md lists common causes.'
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+  "name": "JenkinsLearningApp",
+  "fullName": "JenkinsLearningApp",
+  "color": "blue",
+  "buildable": true,
+  "inQueue": false,
+  "builds": [],
+  "property": [
+    {"_class": "hudson.model.ParametersDefinitionProperty",
+     "parameterDefinitions": [
+       {"_class": "hudson.model.BooleanParameterDefinition", "name": "BUILD_RELEASE"},
+       {"_class": "hudson.model.BooleanParameterDefinition", "name": "RUN_CREDENTIALS_DEMO"}
+     ]}
+  ]
+}

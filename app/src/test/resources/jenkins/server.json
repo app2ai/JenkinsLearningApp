@@ -1,0 +1,44 @@
+{
+  "_class": "hudson.model.Hudson",
+  "description": null,
+  "jobs": [
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+      "name": "JenkinsLearningApp",
+      "fullName": "JenkinsLearningApp",
+      "url": "http://localhost:8080/job/JenkinsLearningApp/",
+      "color": "blue",
+      "buildable": true,
+      "lastBuild": {"_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun", "number": 42, "result": "SUCCESS", "timestamp": 1760000000000, "duration": 252000, "building": false},
+      "lastSuccessfulBuild": {"_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun", "number": 42, "result": "SUCCESS", "timestamp": 1760000000000, "duration": 252000, "building": false}
+    },
+    {
+      "_class": "com.cloudbees.hudson.plugins.folder.Folder",
+      "name": "android",
+      "fullName": "android",
+      "url": "http://localhost:8080/job/android/",
+      "jobs": [
+        {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "my app",
+          "fullName": "android/my app",
+          "url": "http://localhost:8080/job/android/job/my%20app/",
+          "color": "red_anime",
+          "buildable": true,
+          "lastBuild": {"number": 18, "result": null, "timestamp": 1760000900000, "duration": 0, "building": true},
+          "lastSuccessfulBuild": {"number": 15, "result": "SUCCESS", "timestamp": 1759900000000, "duration": 180000, "building": false}
+        }
+      ]
+    },
+    {
+      "_class": "hudson.model.FreeStyleProject",
+      "name": "legacy",
+      "fullName": "legacy",
+      "url": "http://localhost:8080/job/legacy/",
+      "color": "disabled",
+      "buildable": false,
+      "lastBuild": null,
+      "lastSuccessfulBuild": null
+    }
+  ]
+}

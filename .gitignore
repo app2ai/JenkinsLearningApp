@@ -1,0 +1,36 @@
+# ---- Gradle / build output ----
+# Anchored with a leading "/" on purpose: an unanchored "build/" would also
+# ignore source packages named "build" (feature/build/ in this project).
+/.gradle/
+/build/
+/app/build/
+/.kotlin/
+
+# ---- Android Studio / IntelliJ ----
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+.navigation/
+
+# ---- Machine-specific configuration (never committed) ----
+# Android Studio writes sdk.dir here. Each developer keeps their own copy;
+# it stays on their machine (it's ignored, not deleted). Jenkins doesn't need
+# one because it uses ANDROID_HOME. Start from local.properties.example.
+local.properties
+
+# ---- Secrets: never commit these ----
+*.jks
+*.keystore
+*.p12
+*.pem
+keystore.properties
+secrets.properties
+.env
+.env.*
+google-services.json
+
+# ---- OS noise ----
+.DS_Store
+Thumbs.db
